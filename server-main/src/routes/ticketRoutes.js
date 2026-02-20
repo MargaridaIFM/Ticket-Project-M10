@@ -8,6 +8,7 @@ const router = Router();
 router.get("/", asyncHandler(ticketController.listTickets));
 router.get("/:id", asyncHandler(ticketController.getTicket));
 router.post("/", asyncHandler(ticketController.createTicket));
+router.put("/:id", asyncHandler(ticketController.patchTicket));
 router.patch("/:id", asyncHandler(ticketController.patchTicket));
 router.delete("/:id", asyncHandler(ticketController.deleteTicket));
 

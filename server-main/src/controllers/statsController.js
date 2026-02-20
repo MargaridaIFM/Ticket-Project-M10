@@ -33,6 +33,15 @@ export async function ticketStats(req, res) {
 `);
 
 
+  const recent7 = await dbGet(
+    "SELECT COUNT(*) AS count FROM tickets WHERE datetime(created_at) >= datetime('now','-7 days')"
+  );
+
+  const recentTickets = await dbAll(
+    "SELECT id, CI_Name AS ciName, Status AS status, Priority AS priority, created_at AS createdAt FROM tickets WHERE datetime(created_at) >= datetime('now','-7 days') ORDER BY datetime(created_at) DESC LIMIT 20"
+  );
+
+
   res.json({
     data: {
       totals: {
@@ -42,6 +51,10 @@ export async function ticketStats(req, res) {
       },
       by_status: byStatus,
       by_priority: byPriority,
+      recent_7_days: {
+        count: recent7?.count ?? 0,
+        tickets: recentTickets,
+      },
     },
   });
 }
