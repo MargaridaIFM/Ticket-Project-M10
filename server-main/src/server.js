@@ -9,7 +9,7 @@ import { importTicketsFromCsv } from "./services/csvImport.service.js";
 
 dotenv.config();
 
-const PORT = Number(process.env.PORT || 3000);
+const PORT = Number(process.env.PORT || 3001);
 const DB_FILE = process.env.DB_FILE || "./data/app.db";
 
 // Lê CSV por ENV ou por argumento --csv

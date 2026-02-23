@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estatísticas — Ticket Manager</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar">
+    <div class="navbar__brand">
+      <span>⬡</span> Ticket<span>Manager</span>
+    </div>
+    <button class="navbar__toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="navbar__links" id="nav-links">
+      <li><a href="index.html">Tickets</a></li>
+      <li><a href="stats.html" class="active">Estatísticas</a></li>
+      <li><a href="about.html">Sobre</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main>
+    <div class="page-header">
+      <h1>Dashboard de <span>Estatísticas</span></h1>
+      <p>Visão geral do estado dos tickets em tempo real.</p>
+    </div>
+
+    <!-- Cards de totais -->
+    <section class="section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-card__label">Total de Tickets</span>
+          <span class="stat-card__value accent" id="stat-total">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__label">Em Aberto</span>
+          <span class="stat-card__value green" id="stat-open">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__label">Fechados</span>
+          <span class="stat-card__value" id="stat-closed">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__label">Últimos 7 Dias</span>
+          <span class="stat-card__value blue" id="stat-recent">—</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gráficos -->
+    <section class="section two-col">
+
+      <!-- Por status -->
+      <div class="card">
+        <div class="card__title">Por Status</div>
+        <div class="bar-chart" id="chart-status">
+          <div style="text-align:center;padding:1rem;color:var(--txt-muted)">
+            <div class="spinner" style="margin:0 auto .5rem"></div> A carregar...
+          </div>
+        </div>
+      </div>
+
+      <!-- Por prioridade -->
+      <div class="card">
+        <div class="card__title">Por Prioridade</div>
+        <div class="bar-chart" id="chart-priority">
+          <div style="text-align:center;padding:1rem;color:var(--txt-muted)">
+            <div class="spinner" style="margin:0 auto .5rem"></div> A carregar...
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Tickets recentes -->
+    <section class="section">
+      <div class="section-title"><span class="dot"></span> Tickets Recentes (últimos 7 dias)</div>
+      <div class="card">
+        <div id="recent-list">
+          <div style="text-align:center;padding:1rem;color:var(--txt-muted)">
+            <div class="spinner" style="margin:0 auto .5rem"></div> A carregar...
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lista de tecnologias usadas -->
+    <section class="section">
+      <div class="section-title"><span class="dot"></span> Notas sobre a API</div>
+      <div class="card">
+        <p style="color:var(--txt-muted);line-height:1.7;font-size:.875rem;">
+          Esta página realiza <strong style="color:var(--txt)">3 chamadas distintas à API</strong>:
+        </p>
+        <ul style="margin-top:.75rem; display:flex; flex-direction:column; gap:.5rem;">
+          <li style="color:var(--txt-muted);font-size:.875rem;">
+            <code style="color:var(--accent);font-family:var(--font-mono)">GET /api/stats/tickets</code>
+            — totais, breakdown por status e por prioridade
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;">
+            <code style="color:var(--accent);font-family:var(--font-mono)">GET /api/tickets?sort_by=created_at&sort_dir=desc&limit=10</code>
+            — tickets mais recentes para filtrar os dos últimos 7 dias
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;">
+            Os dados de status e prioridade são renderizados como gráficos de barras animados.
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── Toasts ── -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>
+      <strong>TicketManager</strong> · Projeto Final Módulo 10 ·
+      <strong>Gonçalo Silva</strong>, <strong>Margarida Matias</strong>, <strong>Paulo Fonseca</strong>
+      · UPskill 2025/2026
+    </p>
+  </footer>
+
+  <script type="module" src="js/stats.js"></script>
+</body>
+</html>

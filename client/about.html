@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre — Ticket Manager</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar">
+    <div class="navbar__brand">
+      <span>⬡</span> Ticket<span>Manager</span>
+    </div>
+    <button class="navbar__toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="navbar__links" id="nav-links">
+      <li><a href="index.html">Tickets</a></li>
+      <li><a href="stats.html">Estatísticas</a></li>
+      <li><a href="about.html" class="active">Sobre</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main>
+    <div class="page-header">
+      <h1>Sobre o <span>Projeto</span></h1>
+      <p>Projeto Final · Módulo 10 · HTML/CSS/JavaScript · UPskill 2025/2026</p>
+    </div>
+
+    <!-- Membros do grupo -->
+    <section class="section">
+      <div class="section-title"><span class="dot"></span> Membros do Grupo</div>
+      <div class="about-grid">
+        <div class="member-card">
+          <div class="member-avatar">GS</div>
+          <div class="member-info">
+            <h3>Gonçalo Silva</h3>
+            <span>Nº — </span>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-avatar">MM</div>
+          <div class="member-info">
+            <h3>Margarida Matias</h3>
+            <span>Nº — </span>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-avatar">PF</div>
+          <div class="member-info">
+            <h3>Paulo Fonseca</h3>
+            <span>Nº — </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sobre o projeto -->
+    <section class="section">
+      <div class="section-title"><span class="dot"></span> Descrição do Projeto</div>
+      <div class="card">
+        <p style="color:var(--txt-muted);line-height:1.8;font-size:.9rem;">
+          O <strong style="color:var(--txt)">TicketManager</strong> é uma aplicação web de gestão de tickets de suporte técnico,
+          desenvolvida como projeto final do Módulo 10 do programa <strong style="color:var(--txt)">UPskill – Digital SKILLS &amp; JOBS</strong>
+          na Faculdade de Ciências da Universidade de Lisboa.
+        </p>
+        <p style="color:var(--txt-muted);line-height:1.8;font-size:.9rem;margin-top:.75rem;">
+          A aplicação permite criar, visualizar, editar e eliminar tickets de suporte, com filtragem,
+          paginação e um dashboard de estatísticas em tempo real, comunicando com a API REST desenvolvida no Módulo 8.
+        </p>
+      </div>
+    </section>
+
+    <!-- Tecnologias -->
+    <section class="section">
+      <div class="section-title"><span class="dot"></span> Tecnologias Utilizadas</div>
+      <div class="card">
+        <div class="tech-list">
+          <span class="tech-tag">HTML5</span>
+          <span class="tech-tag">CSS3</span>
+          <span class="tech-tag">JavaScript ES2022</span>
+          <span class="tech-tag">ES Modules</span>
+          <span class="tech-tag">Fetch API</span>
+          <span class="tech-tag">Async / Await</span>
+          <span class="tech-tag">REST API</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">Express.js</span>
+          <span class="tech-tag">SQLite</span>
+          <span class="tech-tag">CSS Custom Properties</span>
+          <span class="tech-tag">CSS Grid</span>
+          <span class="tech-tag">CSS Flexbox</span>
+          <span class="tech-tag">Responsive Design</span>
+          <span class="tech-tag">Google Fonts</span>
+        </div>
+
+        <div style="margin-top:1.25rem;">
+          <p style="color:var(--txt-muted);font-size:.85rem;margin-bottom:.5rem;">
+            <strong style="color:var(--txt)">Estrutura de ficheiros:</strong>
+          </p>
+          <ul style="color:var(--txt-muted);font-size:.8rem;font-family:var(--font-mono);display:flex;flex-direction:column;gap:.3rem;">
+            <li>📄 index.html — Página principal (CRUD de tickets)</li>
+            <li>📄 stats.html — Dashboard de estatísticas</li>
+            <li>📄 about.html — Esta página</li>
+            <li>📁 css/style.css — Estilos globais</li>
+            <li>📁 js/api.js — Módulo de comunicação com a API</li>
+            <li>📁 js/index.js — Lógica da página principal</li>
+            <li>📁 js/stats.js — Lógica do dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Funcionalidades implementadas -->
+    <section class="section">
+      <div class="section-title"><span class="dot"></span> Funcionalidades Implementadas</div>
+      <div class="card">
+        <ul style="display:flex;flex-direction:column;gap:.6rem;">
+          <li style="color:var(--txt-muted);font-size:.875rem;padding-left:1.2rem;position:relative;">
+            <span style="color:var(--green);position:absolute;left:0;">✔</span>
+            <strong style="color:var(--txt)">GET</strong> — Listagem automática de todos os tickets com paginação
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;padding-left:1.2rem;position:relative;">
+            <span style="color:var(--green);position:absolute;left:0;">✔</span>
+            <strong style="color:var(--txt)">GET</strong> — Filtros por nome, status e prioridade em tempo real
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;padding-left:1.2rem;position:relative;">
+            <span style="color:var(--green);position:absolute;left:0;">✔</span>
+            <strong style="color:var(--txt)">POST</strong> — Criação de novo ticket via formulário com validação
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;padding-left:1.2rem;position:relative;">
+            <span style="color:var(--green);position:absolute;left:0;">✔</span>
+            <strong style="color:var(--txt)">PATCH</strong> — Edição de ticket existente (formulário pré-preenchido)
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;padding-left:1.2rem;position:relative;">
+            <span style="color:var(--green);position:absolute;left:0;">✔</span>
+            <strong style="color:var(--txt)">DELETE</strong> — Eliminação com diálogo de confirmação
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;padding-left:1.2rem;position:relative;">
+            <span style="color:var(--green);position:absolute;left:0;">✔</span>
+            Dashboard com gráficos de barras por status e prioridade
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;padding-left:1.2rem;position:relative;">
+            <span style="color:var(--green);position:absolute;left:0;">✔</span>
+            Feedback visual com toasts, spinners e mensagens de erro/sucesso
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;padding-left:1.2rem;position:relative;">
+            <span style="color:var(--green);position:absolute;left:0;">✔</span>
+            Responsivo para iPhone 14 Pro Max (430×932px) e Desktop 1920×1080
+          </li>
+          <li style="color:var(--txt-muted);font-size:.875rem;padding-left:1.2rem;position:relative;">
+            <span style="color:var(--green);position:absolute;left:0;">✔</span>
+            Navbar com hamburger menu no mobile
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Dificuldades -->
+    <section class="section">
+      <div class="section-title"><span class="dot"></span> Dificuldades Sentidas</div>
+      <div class="card">
+        <ul class="difficulties-list">
+          <li>
+            Gestão de estado assíncrono entre chamadas à API — garantir que a UI reflecte sempre
+            os dados mais recentes após operações de escrita (POST/PATCH/DELETE) sem recarregar a página.
+          </li>
+          <li>
+            Implementação de responsividade completa para mobile, em especial a transformação da
+            tabela em cards no iPhone 14 Pro Max com atributos <code style="font-family:var(--font-mono);color:var(--accent)">data-label</code> via CSS.
+          </li>
+          <li>
+            Validação de formulários no lado do cliente com feedback visual claro e acessível,
+            sem recorrer a bibliotecas externas.
+          </li>
+          <li>
+            Tratamento de erros HTTP provenientes da API — distinguir entre erros de rede,
+            erros de validação (400) e recursos não encontrados (404).
+          </li>
+          <li>
+            Coordenação da paginação com os filtros activos — garantir que a página volta
+            a 1 sempre que um filtro é alterado.
+          </li>
+          <li>
+            Utilização de ES Modules nativos (<code style="font-family:var(--font-mono);color:var(--accent)">type="module"</code>) e suas implicações
+            (necessidade de servidor HTTP local para evitar erros CORS em <code>file://</code>).
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Instruções de utilização -->
+    <section class="section">
+      <div class="section-title"><span class="dot"></span> Como Executar</div>
+      <div class="card">
+        <ol style="display:flex;flex-direction:column;gap:.6rem;padding-left:1.2rem;list-style:decimal;color:var(--txt-muted);font-size:.875rem;line-height:1.7;">
+          <li>Iniciar a API: <code style="color:var(--accent);font-family:var(--font-mono)">cd server-main &amp;&amp; npm install &amp;&amp; npm run dev</code> (porta 3001)</li>
+          <li>Servir o frontend com um servidor HTTP local — por exemplo: <code style="color:var(--accent);font-family:var(--font-mono)">npx serve client/</code></li>
+          <li>Abrir <code style="color:var(--accent);font-family:var(--font-mono)">http://localhost:3000</code> no Google Chrome</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Toasts ── -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>
+      <strong>TicketManager</strong> · Projeto Final Módulo 10 ·
+      <strong>Gonçalo Silva</strong>, <strong>Margarida Matias</strong>, <strong>Paulo Fonseca</strong>
+      · UPskill 2025/2026
+    </p>
+  </footer>
+
+  <script>
+    // Navbar mobile toggle (sem módulo necessário nesta página)
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
