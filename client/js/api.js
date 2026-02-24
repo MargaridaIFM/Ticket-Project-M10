@@ -129,10 +129,27 @@ export function statusBadgeClass(s) {
 }
 
 /** Formata uma data ISO para apresentação */
+// DEPOIS
 export function formatDate(str) {
   if (!str) return '—';
   try {
-    return new Date(str).toLocaleDateString('pt-PT', {
+    let normalized = str;
+
+    // Formato DD-MM-YYYY HH:MM (ex: "29-03-2012 12:36")
+    const dmyDash = /^(\d{1,2})-(\d{1,2})-(\d{4})(.*)$/;
+    if (dmyDash.test(str)) {
+      normalized = str.replace(dmyDash, '$3-$2-$1$4'); // converte para YYYY-MM-DD
+    }
+
+    // Formato M/D/YYYY HH:MM (ex: "5/2/2012 13:32")
+    const mdySlash = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(.*)$/;
+    if (mdySlash.test(str)) {
+      normalized = str.replace(mdySlash, '$3-$1-$2$4'); // converte para YYYY-M-D
+    }
+
+    const d = new Date(normalized);
+    if (isNaN(d.getTime())) return str; // se ainda falhar, mostra o original
+    return d.toLocaleDateString('pt-PT', {
       day: '2-digit', month: '2-digit', year: 'numeric',
     });
   } catch (_) { return str; }
