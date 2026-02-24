@@ -1,180 +1,157 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gestor de Tickets</title>
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gestor de Tickets</title>
+<link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
-
-  <!-- ── Navbar ── -->
-  <nav class="navbar">
-    <div class="navbar__brand">
-      <span>⬡</span> Ticket<span>Manager</span>
-    </div>
-    <button class="navbar__toggle" id="nav-toggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="navbar__links" id="nav-links">
-      <li><a href="index.html" class="active">Tickets</a></li>
-      <li><a href="stats.html">Estatísticas</a></li>
-      <li><a href="about.html">Sobre</a></li>
-    </ul>
-  </nav>
-
-  <!-- ── Main ── -->
-  <main>
-    <!-- Cabeçalho da página -->
-    <div class="page-header">
-      <h1>Gestor de <span>Tickets</span></h1>
-      <p>Listagem, criação, edição e remoção de tickets de suporte.</p>
-    </div>
-
-    <!-- Secção principal -->
-    <section class="section">
-      <!-- Toolbar: filtros + botão novo -->
-      <div class="tickets-toolbar">
-        <input
-          type="text"
-          id="filter-search"
-          placeholder="🔍 Pesquisar por nome CI..."
-          aria-label="Pesquisar por nome CI"
-        />
-        <select id="filter-status" aria-label="Filtrar por status">
-          <option value="">Todos os status</option>
-          <option value="Work In Progress">Work In Progress</option>
-          <option value="Resolved">Resolved</option>
-          <option value="Closed">Closed</option>
-          <option value="Open">Open</option>
-        </select>
-        <select id="filter-priority" aria-label="Filtrar por prioridade">
-          <option value="">Todas as prioridades</option>
-          <option value="1">Crítica (P1)</option>
-          <option value="2">Alta (P2)</option>
-          <option value="3">Média (P3)</option>
-          <option value="4">Baixa (P4)</option>
-        </select>
-        <button class="btn btn-primary" id="btn-new-ticket">＋ Novo Ticket</button>
-      </div>
-
-      <!-- Tabela de tickets -->
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nome CI</th>
-              <th>Categoria</th>
-              <th>Status</th>
-              <th>Prioridade</th>
-              <th>Data Abertura</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="tickets-tbody">
-            <tr class="loading-row">
-              <td colspan="7"><div class="spinner"></div> A carregar...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Paginação -->
-      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; margin-top:1rem;">
-        <span id="pagination-info" class="pagination-info"></span>
-        <div id="pagination" class="pagination"></div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ── Modal: Criar / Editar Ticket ── -->
-  <div class="dialog-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="dialog">
-      <div class="dialog__header">
-        <h2 id="modal-title">Novo Ticket</h2>
-        <button class="dialog__close" id="btn-modal-close" aria-label="Fechar">×</button>
-      </div>
-
-      <form id="form-ticket" novalidate>
-        <div class="form-grid">
-
-          <div class="form-group">
-            <label for="field-ci-name">Nome CI <span style="color:var(--red)">*</span></label>
-            <input type="text" id="field-ci-name" placeholder="Ex: Servidor Web" autocomplete="off" />
-            <span class="form-error" id="err-ci-name"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="field-ci-cat">Categoria</label>
-            <input type="text" id="field-ci-cat" placeholder="Ex: Hardware, Software..." />
-          </div>
-
-          <div class="form-group">
-            <label for="field-status">Status</label>
-            <select id="field-status">
-              <option value="Work In Progress">Work In Progress</option>
-              <option value="Resolved">Resolved</option>
-              <option value="Closed">Closed</option>
-              <option value="Open">Open</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="field-priority">Prioridade</label>
-            <select id="field-priority">
-              <option value="1">Crítica (P1)</option>
-              <option value="2">Alta (P2)</option>
-              <option value="3" selected>Média (P3)</option>
-              <option value="4">Baixa (P4)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="field-open-time">Data Abertura <span style="color:var(--red)">*</span></label>
-            <input type="datetime-local" id="field-open-time" />
-            <span class="form-error" id="err-open-time"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="field-close-time">Data Fecho</label>
-            <input type="datetime-local" id="field-close-time" />
-          </div>
-
-        </div>
-
-        <div class="form-actions" style="margin-top:1.5rem">
-          <button type="submit" class="btn btn-primary">Criar Ticket</button>
-          <button type="button" class="btn btn-secondary" id="btn-form-cancel">Cancelar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- ── Modal: Confirmação de eliminação ── -->
-  <div class="dialog-overlay" id="confirm-overlay" role="alertdialog" aria-modal="true">
-    <div class="confirm-dialog">
-      <h3>⚠ Confirmar Eliminação</h3>
-      <p id="confirm-message">Tens a certeza que queres apagar este ticket?</p>
-      <div class="confirm-actions">
-        <button class="btn btn-danger" id="btn-confirm-yes">Sim, apagar</button>
-        <button class="btn btn-secondary" id="btn-confirm-no">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Toasts ── -->
-  <div class="toast-container" id="toast-container" aria-live="polite"></div>
-
-  <!-- ── Footer ── -->
-  <footer>
-    <p>
-      <strong>TicketManager</strong> · Projeto Final Módulo 10 ·
+<!-- ── Navbar ── -->
+<nav class="navbar">
+<div class="navbar__brand">
+<span>⬡</span> Ticket<span>Manager</span>
+</div>
+<button aria-label="Menu" class="navbar__toggle" id="nav-toggle">
+<span></span><span></span><span></span>
+</button>
+<ul class="navbar__links" id="nav-links">
+<li><a class="active" href="index.html">Tickets</a></li>
+<li><a href="stats.html">Estatísticas</a></li>
+<li><a href="about.html">Sobre</a></li>
+</ul>
+</nav>
+<!-- ── Main ── -->
+<main>
+<!-- Cabeçalho da página -->
+<div class="page-header">
+<h1>Gestor de <span>Tickets</span></h1>
+<p>Listagem, criação, edição e remoção de tickets de suporte.</p>
+</div>
+<!-- Secção principal -->
+<section class="section">
+<!-- Toolbar: filtros + botão novo -->
+<div class="tickets-toolbar">
+<input aria-label="Pesquisar por nome CI" id="filter-search" placeholder="🔍 Pesquisar por nome CI..." type="text"/>
+<select aria-label="Filtrar por status" id="filter-status">
+<option value="">Todos os status</option>
+<option value="Work In Progress">Work In Progress</option>
+<option value="Resolved">Resolved</option>
+<option value="Closed">Closed</option>
+<option value="Open">Open</option>
+</select>
+<select aria-label="Filtrar por prioridade" id="filter-priority">
+<option value="">Todas as prioridades</option>
+<option value="1">Crítica (P1)</option>
+<option value="2">Alta (P2)</option>
+<option value="3">Média (P3)</option>
+<option value="4">Baixa (P4)</option>
+</select>
+<button class="btn btn-primary" id="btn-new-ticket">＋ Novo Ticket</button>
+</div>
+<!-- Tabela de tickets -->
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th class="th-sortable" data-sort-key="id">ID <span aria-hidden="true" class="sort-indicator">▲▼</span></th>
+<th class="th-sortable" data-sort-key="CI_Name">Nome CI <span aria-hidden="true" class="sort-indicator">▲▼</span></th>
+<th class="th-sortable" data-sort-key="CI_Cat">Categoria <span aria-hidden="true" class="sort-indicator">▲▼</span></th>
+<th>Status</th>
+<th>Prioridade</th>
+<th class="th-sortable" data-sort-key="Open_Time">Data Abertura <span aria-hidden="true" class="sort-indicator">▲▼</span></th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="tickets-tbody">
+<tr class="loading-row">
+<td colspan="7"><div class="spinner"></div> A carregar...</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Paginação -->
+<div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; margin-top:1rem;">
+<span class="pagination-info" id="pagination-info"></span>
+<div class="pagination" id="pagination"></div>
+</div>
+</section>
+</main>
+<!-- ── Modal: Criar / Editar Ticket ── -->
+<div aria-labelledby="modal-title" aria-modal="true" class="dialog-overlay" id="modal-overlay" role="dialog">
+<div class="dialog">
+<div class="dialog__header">
+<h2 id="modal-title">Novo Ticket</h2>
+<button aria-label="Fechar" class="dialog__close" id="btn-modal-close">×</button>
+</div>
+<form id="form-ticket" novalidate="">
+<div class="form-grid">
+<div class="form-group">
+<label for="field-ci-name">Nome CI <span style="color:var(--red)">*</span></label>
+<input autocomplete="off" id="field-ci-name" placeholder="Ex: Servidor Web" type="text"/>
+<span class="form-error" id="err-ci-name"></span>
+</div>
+<div class="form-group">
+<label for="field-ci-cat">Categoria</label>
+<input id="field-ci-cat" placeholder="Ex: Hardware, Software..." type="text"/>
+</div>
+<div class="form-group">
+<label for="field-status">Status</label>
+<select id="field-status">
+<option value="Work In Progress">Work In Progress</option>
+<option value="Resolved">Resolved</option>
+<option value="Closed">Closed</option>
+<option value="Open">Open</option>
+</select>
+</div>
+<div class="form-group">
+<label for="field-priority">Prioridade</label>
+<select id="field-priority">
+<option value="1">Crítica (P1)</option>
+<option value="2">Alta (P2)</option>
+<option selected="" value="3">Média (P3)</option>
+<option value="4">Baixa (P4)</option>
+</select>
+</div>
+<div class="form-group">
+<label for="field-open-time">Data Abertura <span style="color:var(--red)">*</span></label>
+<input id="field-open-time" type="datetime-local"/>
+<span class="form-error" id="err-open-time"></span>
+</div>
+<div class="form-group">
+<label for="field-close-time">Data Fecho</label>
+<input id="field-close-time" type="datetime-local"/>
+</div>
+</div>
+<div class="form-actions" style="margin-top:1.5rem">
+<button class="btn btn-primary" type="submit">Criar Ticket</button>
+<button class="btn btn-secondary" id="btn-form-cancel" type="button">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+<!-- ── Modal: Confirmação de eliminação ── -->
+<div aria-modal="true" class="dialog-overlay" id="confirm-overlay" role="alertdialog">
+<div class="confirm-dialog">
+<h3>⚠ Confirmar Eliminação</h3>
+<p id="confirm-message">Tens a certeza que queres apagar este ticket?</p>
+<div class="confirm-actions">
+<button class="btn btn-danger" id="btn-confirm-yes">Sim, apagar</button>
+<button class="btn btn-secondary" id="btn-confirm-no">Cancelar</button>
+</div>
+</div>
+</div>
+<!-- ── Toasts ── -->
+<div aria-live="polite" class="toast-container" id="toast-container"></div>
+<!-- ── Footer ── -->
+<footer>
+<p>
+<strong>TicketManager</strong> · Projeto Final Módulo 10 ·
       <strong>Gonçalo Silva</strong>, <strong>Margarida Matias</strong>, <strong>Paulo Fonseca</strong>
       · UPskill 2025/2026
     </p>
-  </footer>
-
-  <script type="module" src="js/index.js"></script>
+</footer>
+<script src="js/index.js" type="module"></script>
 </body>
 </html>
