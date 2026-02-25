@@ -720,7 +720,12 @@ footer strong { color: var(--accent); }
     padding: .5rem;
   }
   .navbar__links.open { display: flex; }
-  .navbar__links a { padding: .7rem 1rem; }
+  .navbar__links a {
+  padding: .7rem 1rem;
+  display: block;        /* ocupa a largura toda */
+  width: 100%;           /* clicável em toda a linha */
+  border-radius: 0;      /* remove o border-radius que causava a sombra grande */
+  }
 
   main { padding: 1rem; }
   .two-col { grid-template-columns: 1fr; }
@@ -728,42 +733,59 @@ footer strong { color: var(--accent); }
   .about-grid { grid-template-columns: 1fr; }
 
   /* Table → Card on mobile */
-  .table-wrapper { border: none; }
-  table, thead, tbody, th, td, tr { display: block; }
-  thead { display: none; }
-  tbody tr {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: .75rem;
-    padding: 1rem;
+.table-wrapper { border: none; }
+table, thead, tbody, th, td, tr { display: block; }
+thead { display: none; }
+
+tbody {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+}
+tbody tr {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .85rem;
+  margin-bottom: 0;
+}
+tbody td {
+  padding: .25rem 0;
+  display: flex;
+  gap: .4rem;
+  font-size: .8rem;
+}
+tbody td::before {
+  content: attr(data-label);
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: .7rem;
+  text-transform: uppercase;
+  color: var(--txt-muted);
+  min-width: 50px;
+  flex-shrink: 0;
+}
+  /* DEPOIS */
+  .col-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
   }
-  tbody td {
-    padding: .3rem 0;
-    display: flex;
-    gap: .5rem;
+  .col-actions::before {
+    display: none; /* esconde o label "AÇÕES" para os botões ficarem juntos */
   }
-  tbody td::before {
-    content: attr(data-label);
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: .75rem;
-    text-transform: uppercase;
-    color: var(--txt-muted);
-    min-width: 80px;
-    flex-shrink: 0;
-  }
-  .col-actions { flex-direction: row; flex-wrap: wrap; }
   .col-id::before  { content: 'ID'; }
   .col-name::before { content: 'Nome'; }
   .col-cat::before  { content: 'Cat'; }
   .col-status::before { content: 'Status'; }
   .col-priority::before { content: 'Prior.'; }
   .col-date::before { content: 'Data'; }
-  .col-actions::before { content: 'Ações'; }
 }
 
 @media (max-width: 430px) {
+  tbody {
+  grid-template-columns: 1fr 1fr;
+}
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .page-header h1 { font-size: 1.5rem; }
   .dialog { padding: 1.25rem; }
