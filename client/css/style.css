@@ -270,6 +270,30 @@ thead th {
   text-align: left;
   white-space: nowrap;
 }
+
+/* ── Sortable table headers ─────────────────────────────── */
+
+
+/* ── Ordenação da tabela (Tickets) ───────────────────────────────────────── */
+.th-sortable{
+  cursor:pointer;
+  user-select:none;
+}
+.th-sortable:hover{ color: var(--txt); }
+
+.sort-indicator{
+  display:inline-block;
+  margin-left:.35rem;
+  font-size:.85rem;
+  line-height:1;
+  vertical-align:middle;
+  color: var(--muted);
+  opacity:.9;
+}
+.th-sortable.is-sorted .sort-indicator{
+  color: var(--accent);
+  opacity:1;
+}
 tbody tr {
   border-bottom: 1px solid var(--border);
   transition: background .15s;

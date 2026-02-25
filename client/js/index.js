@@ -16,6 +16,7 @@ const state = {
   limit: 10,
   editingId: null,
   filters: { status: '', priority: '', ci_name: '' },
+  sort: { by: null, dir: null },
 };
 
 // ── Elementos DOM ──────────────────────────────────────────────────────────
@@ -38,6 +39,7 @@ const btnConfirmNo   = document.getElementById('btn-confirm-no');
 const toastContainer = document.getElementById('toast-container');
 const navToggle      = document.getElementById('nav-toggle');
 const navLinks       = document.getElementById('nav-links');
+const sortableHeaders = Array.from(document.querySelectorAll('thead th.th-sortable'));
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 function showToast(msg, type = 'info') {
@@ -122,19 +124,83 @@ function renderPagination() {
 async function loadTickets() {
   setLoadingRow();
   try {
-    const result = await getTickets({
+    const params = {
       ...state.filters,
       limit: state.limit,
       offset: (state.page - 1) * state.limit,
-    });
+    };
+    if (state.sort.by && state.sort.dir) {
+      params.sort_by = state.sort.by;
+      params.sort_dir = state.sort.dir;
+    }
+    const result = await getTickets(params);
     state.tickets = result.data ?? [];
     state.total   = result.paging?.total ?? 0;
     renderTickets();
     renderPagination();
+    updateSortIndicators();
   } catch (err) {
     tbody.innerHTML = `<tr class="empty-row"><td colspan="7">Erro ao carregar tickets: ${err.message}</td></tr>`;
     showToast('Erro ao carregar tickets: ' + err.message, 'error');
   }
+}
+
+// ── Ordenação (headers clicáveis) ─────────────────────────────────────────
+function updateSortIndicators() {
+  if (!sortableHeaders.length) return;
+
+  sortableHeaders.forEach(th => {
+    const key = th.dataset.sortKey;
+    const arrow = th.querySelector('.sort-indicator');
+    th.classList.remove('is-sorted');
+
+    // Default: neutro (duas setas cinzentas)
+    if (arrow) arrow.textContent = '▲▼';
+
+    if (key === state.sort.by && state.sort.dir) {
+      th.classList.add('is-sorted');
+      if (arrow) arrow.textContent = state.sort.dir === 'asc' ? '▲' : '▼';
+    }
+  });
+}
+
+function bindSorting() {
+  if (!sortableHeaders.length) return;
+
+  sortableHeaders.forEach(th => {
+    th.setAttribute('role', 'button');
+    th.setAttribute('tabindex', '0');
+
+    const key = th.dataset.sortKey;
+    const onActivate = () => {
+      if (!key) return;
+
+      if (state.sort.by !== key) {
+        state.sort.by = key;
+        state.sort.dir = 'asc';
+      } else if (state.sort.dir === 'asc') {
+        state.sort.dir = 'desc';
+      } else if (state.sort.dir === 'desc') {
+        state.sort.by = null;
+        state.sort.dir = null;
+      } else {
+        state.sort.dir = 'asc';
+      }
+
+      state.page = 1;
+      loadTickets();
+    };
+
+    th.addEventListener('click', onActivate);
+    th.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onActivate();
+      }
+    });
+  });
+
+  updateSortIndicators();
 }
 
 // ── Modal helpers ──────────────────────────────────────────────────────────
@@ -356,4 +422,5 @@ function escHtml(str) {
 }
 
 // ── Inicialização ──────────────────────────────────────────────────────────
+bindSorting();
 loadTickets();
