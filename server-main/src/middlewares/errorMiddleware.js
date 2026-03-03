@@ -17,11 +17,12 @@ export function errorMiddleware(err, req, res, next) {
   const status = err.statusCode || err.status || 500;
   const message = err.message || "Internal Server Error";
   const route = `${req.method} ${req.originalUrl}`;
+  const actor = req.user?.id ? ` userId=${req.user.id} role=${req.user.role}` : "";
 
   if (status >= 500) {
-    secureLog("error", `${route} status=${status} message=${message}`).catch(() => null);
+    secureLog("error", `${route} status=${status}${actor} message=${message}`).catch(() => null);
   } else {
-    secureLog("warn", `${route} status=${status} message=${message}`).catch(() => null);
+    secureLog("warn", `${route} status=${status}${actor} message=${message}`).catch(() => null);
   }
 
   res.status(status).json({

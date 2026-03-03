@@ -16,7 +16,16 @@ function maskSecrets(text) {
 }
 
 export function sanitizeLogValue(value) {
-  const text = typeof value === "string" ? value : JSON.stringify(value);
+  let text = "";
+  if (typeof value === "string") {
+    text = value;
+  } else {
+    try {
+      text = JSON.stringify(value);
+    } catch (_) {
+      text = String(value);
+    }
+  }
   return maskSecrets(maskEmail(text));
 }
 
