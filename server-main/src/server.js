@@ -5,7 +5,10 @@ import path from "path";
 import app from "./app.js"
 import { connectDb, dbGet } from "./db/index.js";
 import { migrate } from "./db/migrate.js";
+import { ensureSecuritySchema } from "./db/securityMigrate.js";
 import { importTicketsFromCsv } from "./services/csvImport.service.js";
+import { hashPassword } from "./security/password.service.js";
+import { createUser, getUserByUsername } from "./repositories/userRepo.js";
 
 dotenv.config();
 
@@ -85,6 +88,9 @@ async function main() {
 
   const schemaPath = path.resolve("src/db/schema.sql");
   await migrate(schemaPath);
+  await ensureSecuritySchema();
+
+  await ensureDefaultAdminUser();
 
   // Importar CSV:
   // - Se DB não existia -> criar conteúdo inicial via CSV
@@ -102,6 +108,20 @@ async function main() {
 
   process.on("SIGINT", shutdown);
   process.on("SIGTERM", shutdown);
+}
+
+async function ensureDefaultAdminUser() {
+  const username = process.env.DEFAULT_ADMIN_USER;
+  const email = process.env.DEFAULT_ADMIN_EMAIL;
+  const password = process.env.DEFAULT_ADMIN_PASSWORD;
+  if (!username || !email || !password) return;
+
+  const existing = await getUserByUsername(username);
+  if (existing) return;
+
+  const passwordHash = await hashPassword(password);
+  await createUser({ username, email, passwordHash, role: "admin" });
+  console.log(`Default admin created: ${username}`);
 }
 main().catch((err) => {
   console.error("Failed to start server:", err);

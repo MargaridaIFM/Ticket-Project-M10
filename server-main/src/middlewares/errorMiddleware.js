@@ -1,3 +1,5 @@
+import { secureLog } from "../services/logger.service.js";
+
 // server-main/src/middlewares/errorMiddleware.js
 export function asyncHandler(fn) {
   return function asyncWrapped(req, res, next) {
@@ -13,15 +15,16 @@ export function notFoundMiddleware(req, res) {
 
 export function errorMiddleware(err, req, res, next) {
   const status = err.statusCode || err.status || 500;
+  const message = err.message || "Internal Server Error";
+  const route = `${req.method} ${req.originalUrl}`;
 
   if (status >= 500) {
-    console.error("[error]", err);
+    secureLog("error", `${route} status=${status} message=${message}`).catch(() => null);
   } else {
-    console.log(`[warn] ${status} - ${err.message}`);
+    secureLog("warn", `${route} status=${status} message=${message}`).catch(() => null);
   }
 
   res.status(status).json({
-    error: { message: err.message || "Internal Server Error" },
+    error: { message },
   });
 }
-
