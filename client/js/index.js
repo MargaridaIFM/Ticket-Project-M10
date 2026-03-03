@@ -76,7 +76,7 @@ function renderRow(t) {
     </td>
     <td class="col-date" data-label="Data">${formatDate(t.Open_Time)}</td>
     <td class="col-actions" data-label="Ações">
-      <button class="btn btn-secondary btn-sm btn-edit" data-id="${t.id}" title="Editar">🖊</button>
+      <button class="btn btn-secondary btn-sm btn-edit" data-id="${t.id}" title="Editar">✏</button>
       <button class="btn btn-danger btn-sm btn-delete" data-id="${t.id}" title="Apagar">🗑</button>
     </td>`;
 
